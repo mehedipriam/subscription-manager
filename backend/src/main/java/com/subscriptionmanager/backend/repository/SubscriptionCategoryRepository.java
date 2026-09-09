@@ -1,6 +1,7 @@
 package com.subscriptionmanager.backend.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface SubscriptionCategoryRepository extends JpaRepository<Subscripti
     List<SubscriptionCategory> findDefaultsAndOwnedBy(@Param("userId") Long userId);
 
     List<SubscriptionCategory> findByUserIsNull();
+
+    Optional<SubscriptionCategory> findByIdAndUserId(Long id, Long userId);
 }

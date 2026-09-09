@@ -39,6 +39,18 @@ public class GlobalExceptionHandler {
             401, "Unauthorized", ex.getMessage(), path(request)));
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+            404, "Not Found", ex.getMessage(), path(request)));
+    }
+
+    @ExceptionHandler(CategoryInUseException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(CategoryInUseException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(
+            409, "Conflict", ex.getMessage(), path(request)));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex, WebRequest request) {
         log.error("Unhandled exception", ex);
