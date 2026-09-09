@@ -35,3 +35,13 @@ api:
 app:
   cors:
     allowed-origins: ${FRONTEND_ORIGIN:http://localhost:3000}
+  password-reset:
+    ttl-minutes: ${PASSWORD_RESET_TTL_MINUTES:30}
+  rate-limit:
+    max-requests: ${RATE_LIMIT_MAX_REQUESTS:10}
+    window-seconds: ${RATE_LIMIT_WINDOW_SECONDS:60}
+
+jwt:
+  secret: ${JWT_SECRET:dev-only-secret-key-change-me-before-any-real-deployment-32bytes+}
+  access-token-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:15}
+  refresh-token-ttl-days: ${JWT_REFRESH_TTL_DAYS:7}
