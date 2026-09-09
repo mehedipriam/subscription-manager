@@ -111,6 +111,12 @@ All variables are documented with sensible local defaults in `.env.example`.
 | `FRONTEND_PORT`          | Host port the frontend is exposed on            | `3000`                     |
 | `FRONTEND_ORIGIN`        | Allowed CORS origin for the backend             | `http://localhost:3000`    |
 | `NEXT_PUBLIC_API_URL`    | Backend base URL the browser calls              | `http://localhost:8080`    |
+| `JWT_SECRET`              | Signing key for access tokens (32+ bytes)       | *(generate your own)*      |
+| `JWT_ACCESS_TTL_MINUTES`  | Access token lifetime                           | `15`                        |
+| `JWT_REFRESH_TTL_DAYS`    | Refresh token lifetime                          | `7`                         |
+| `PASSWORD_RESET_TTL_MINUTES` | Password reset token lifetime               | `30`                        |
+| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window on auth endpoints       | `10`                        |
+| `RATE_LIMIT_WINDOW_SECONDS` | Rate limit window length                      | `60`                        |
 
 ## Project Structure
 
@@ -125,11 +131,11 @@ subscription-manager/
 ## Roadmap
 
 - [x] Project scaffolding, Docker orchestration, and service health checks
-- [ ] Database schema & JPA entities
-- [ ] Authentication (JWT, refresh tokens, password reset, rate limiting)
-- [ ] Subscription CRUD & categories
-- [ ] Payment history
-- [ ] Cost normalization & dashboard
+- [x] Database schema & JPA entities
+- [x] Authentication (JWT, refresh tokens, password reset, rate limiting)
+- [x] Subscription CRUD & categories
+- [x] Payment history
+- [x] Cost normalization & dashboard
 - [ ] Analytics (spend trends, category breakdown)
 - [ ] Price history & change tracking
 - [ ] Notifications & scheduled reminders

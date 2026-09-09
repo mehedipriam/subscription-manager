@@ -12,4 +12,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findBySubscriptionIdAndDeletedAtIsNullOrderByPaymentDateDesc(Long subscriptionId);
 
     Optional<Payment> findByIdAndSubscriptionIdAndDeletedAtIsNull(Long id, Long subscriptionId);
+
+    List<Payment> findTop10BySubscriptionUserIdAndDeletedAtIsNullOrderByCreatedAtDesc(Long userId);
 }
