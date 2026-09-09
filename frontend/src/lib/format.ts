@@ -10,6 +10,14 @@ export function formatDate(isoDate: string): string {
   });
 }
 
+export function formatMonthLabel(yearMonth: string): string {
+  const [year, month] = yearMonth.split("-").map(Number);
+  return new Date(year, month - 1, 1).toLocaleDateString("en-US", {
+    month: "short",
+    year: "2-digit",
+  });
+}
+
 export function formatRelativeTime(isoTimestamp: string): string {
   const then = new Date(isoTimestamp).getTime();
   const diffSeconds = Math.round((then - Date.now()) / 1000);

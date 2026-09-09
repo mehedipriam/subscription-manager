@@ -79,3 +79,23 @@ export interface DashboardSummary {
   categoryBreakdown: CategorySpend[];
   recentActivity: ActivityItem[];
 }
+
+export interface MonthlySpendPoint {
+  month: string;
+  totalSpend: number;
+}
+
+export interface TopSubscription {
+  subscriptionId: number;
+  name: string;
+  category: Category | null;
+  normalizedMonthlyCost: number;
+  currency: string;
+}
+
+export interface AnalyticsSummary {
+  monthlyTrend: MonthlySpendPoint[];
+  yearlyTotal: number;
+  categoryBreakdown: CategorySpend[];
+  mostExpensive: TopSubscription[];
+}

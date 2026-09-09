@@ -1,12 +1,9 @@
 package com.subscriptionmanager.backend.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
@@ -18,7 +15,6 @@ import com.subscriptionmanager.backend.dto.dashboard.DashboardResponse;
 import com.subscriptionmanager.backend.dto.dashboard.UpcomingPaymentResponse;
 import com.subscriptionmanager.backend.entity.Payment;
 import com.subscriptionmanager.backend.entity.Subscription;
-import com.subscriptionmanager.backend.entity.SubscriptionCategory;
 import com.subscriptionmanager.backend.entity.enums.SubscriptionStatus;
 import com.subscriptionmanager.backend.repository.PaymentRepository;
 import com.subscriptionmanager.backend.repository.SubscriptionRepository;
@@ -36,6 +32,7 @@ public class DashboardService {
     private final SubscriptionRepository subscriptionRepository;
     private final PaymentRepository paymentRepository;
     private final CostNormalizationService costNormalizationService;
+    private final CategoryBreakdownService categoryBreakdownService;
 
     @Transactional(readOnly = true)
     public DashboardResponse getSummary(Long userId) {
@@ -67,7 +64,7 @@ public class DashboardService {
             .map(UpcomingPaymentResponse::from)
             .toList();
 
-        List<CategorySpendResponse> categoryBreakdown = buildCategoryBreakdown(active, totalMonthlySpend);
+        List<CategorySpendResponse> categoryBreakdown = categoryBreakdownService.build(active, totalMonthlySpend);
 
         List<ActivityItemResponse> recentActivity = buildRecentActivity(userId, subscriptions);
 
@@ -84,37 +81,6 @@ public class DashboardService {
 
     private boolean isWithin(LocalDate date, LocalDate from, LocalDate to) {
         return date != null && !date.isBefore(from) && !date.isAfter(to);
-    }
-
-    private List<CategorySpendResponse> buildCategoryBreakdown(List<Subscription> active, BigDecimal totalMonthlySpend) {
-        Map<String, List<Subscription>> byCategory = new LinkedHashMap<>();
-        for (Subscription s : active) {
-            String key = s.getCategory() == null ? "uncategorized" : s.getCategory().getId().toString();
-            byCategory.computeIfAbsent(key, k -> new java.util.ArrayList<>()).add(s);
-        }
-
-        return byCategory.values().stream()
-            .map(group -> {
-                SubscriptionCategory category = group.get(0).getCategory();
-                BigDecimal monthlyAmount = group.stream()
-                    .map(s -> costNormalizationService.toMonthly(s.getPrice(), s.getBillingCycle()))
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-                BigDecimal percentage = totalMonthlySpend.compareTo(BigDecimal.ZERO) == 0
-                    ? BigDecimal.ZERO
-                    : monthlyAmount.multiply(BigDecimal.valueOf(100))
-                        .divide(totalMonthlySpend, 1, RoundingMode.HALF_UP);
-
-                return new CategorySpendResponse(
-                    category == null ? null : category.getId(),
-                    category == null ? "Uncategorized" : category.getName(),
-                    category == null ? null : category.getIcon(),
-                    category == null ? null : category.getColor(),
-                    monthlyAmount,
-                    percentage
-                );
-            })
-            .sorted(Comparator.comparing(CategorySpendResponse::monthlyAmount).reversed())
-            .toList();
     }
 
     private List<ActivityItemResponse> buildRecentActivity(Long userId, List<Subscription> subscriptions) {
