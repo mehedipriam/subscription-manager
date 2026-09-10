@@ -10,6 +10,7 @@ public record DashboardResponse(
     int upcomingRenewalsCount,
     List<UpcomingPaymentResponse> upcomingPayments,
     List<CategorySpendResponse> categoryBreakdown,
-    List<ActivityItemResponse> recentActivity
+    List<ActivityItemResponse> recentActivity,
+    List<PriceChangeResponse> recentPriceChanges
 ) {
 }

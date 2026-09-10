@@ -9,4 +9,6 @@ import com.subscriptionmanager.backend.entity.PriceHistory;
 public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long> {
 
     List<PriceHistory> findBySubscriptionIdOrderByChangedAtDesc(Long subscriptionId);
+
+    List<PriceHistory> findTop10BySubscriptionUserIdOrderByChangedAtDesc(Long userId);
 }

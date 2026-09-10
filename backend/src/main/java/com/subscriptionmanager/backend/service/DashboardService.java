@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.subscriptionmanager.backend.dto.dashboard.ActivityItemResponse;
 import com.subscriptionmanager.backend.dto.dashboard.CategorySpendResponse;
 import com.subscriptionmanager.backend.dto.dashboard.DashboardResponse;
+import com.subscriptionmanager.backend.dto.dashboard.PriceChangeResponse;
 import com.subscriptionmanager.backend.dto.dashboard.UpcomingPaymentResponse;
 import com.subscriptionmanager.backend.entity.Payment;
 import com.subscriptionmanager.backend.entity.Subscription;
 import com.subscriptionmanager.backend.entity.enums.SubscriptionStatus;
 import com.subscriptionmanager.backend.repository.PaymentRepository;
+import com.subscriptionmanager.backend.repository.PriceHistoryRepository;
 import com.subscriptionmanager.backend.repository.SubscriptionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class DashboardService {
 
     private final SubscriptionRepository subscriptionRepository;
     private final PaymentRepository paymentRepository;
+    private final PriceHistoryRepository priceHistoryRepository;
     private final CostNormalizationService costNormalizationService;
     private final CategoryBreakdownService categoryBreakdownService;
 
@@ -68,6 +71,11 @@ public class DashboardService {
 
         List<ActivityItemResponse> recentActivity = buildRecentActivity(userId, subscriptions);
 
+        List<PriceChangeResponse> recentPriceChanges = priceHistoryRepository
+            .findTop10BySubscriptionUserIdOrderByChangedAtDesc(userId).stream()
+            .map(PriceChangeResponse::from)
+            .toList();
+
         return new DashboardResponse(
             totalMonthlySpend,
             totalYearlySpend,
@@ -75,7 +83,8 @@ public class DashboardService {
             upcomingRenewalsCount,
             upcomingPayments,
             categoryBreakdown,
-            recentActivity
+            recentActivity,
+            recentPriceChanges
         );
     }
 

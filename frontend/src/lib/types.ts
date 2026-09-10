@@ -70,6 +70,16 @@ export interface ActivityItem {
   currency: string | null;
 }
 
+export interface PriceChange {
+  subscriptionId: number;
+  subscriptionName: string;
+  oldPrice: number;
+  newPrice: number;
+  percentageChange: number;
+  currency: string;
+  changedAt: string;
+}
+
 export interface DashboardSummary {
   totalMonthlySpend: number;
   totalYearlySpend: number;
@@ -78,6 +88,7 @@ export interface DashboardSummary {
   upcomingPayments: UpcomingPayment[];
   categoryBreakdown: CategorySpend[];
   recentActivity: ActivityItem[];
+  recentPriceChanges: PriceChange[];
 }
 
 export interface MonthlySpendPoint {

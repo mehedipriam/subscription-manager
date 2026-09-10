@@ -1,5 +1,6 @@
 package com.subscriptionmanager.backend.service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -9,12 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.subscriptionmanager.backend.dto.subscription.SubscriptionRequest;
 import com.subscriptionmanager.backend.dto.subscription.SubscriptionResponse;
+import com.subscriptionmanager.backend.entity.PriceHistory;
 import com.subscriptionmanager.backend.entity.Subscription;
 import com.subscriptionmanager.backend.entity.SubscriptionCategory;
 import com.subscriptionmanager.backend.entity.User;
 import com.subscriptionmanager.backend.entity.enums.BillingCycle;
 import com.subscriptionmanager.backend.entity.enums.SubscriptionStatus;
 import com.subscriptionmanager.backend.exception.ResourceNotFoundException;
+import com.subscriptionmanager.backend.repository.PriceHistoryRepository;
 import com.subscriptionmanager.backend.repository.SubscriptionCategoryRepository;
 import com.subscriptionmanager.backend.repository.SubscriptionRepository;
 import com.subscriptionmanager.backend.repository.UserRepository;
@@ -28,6 +31,7 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final SubscriptionCategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final PriceHistoryRepository priceHistoryRepository;
 
     @Transactional(readOnly = true)
     public List<SubscriptionResponse> listForUser(Long userId) {
@@ -55,7 +59,17 @@ public class SubscriptionService {
     @Transactional
     public SubscriptionResponse update(Long userId, Long subscriptionId, SubscriptionRequest request) {
         Subscription subscription = findOwned(userId, subscriptionId);
+        BigDecimal previousPrice = subscription.getPrice();
         applyRequest(subscription, userId, request);
+
+        if (previousPrice.compareTo(subscription.getPrice()) != 0) {
+            PriceHistory priceHistory = new PriceHistory();
+            priceHistory.setSubscription(subscription);
+            priceHistory.setOldPrice(previousPrice);
+            priceHistory.setNewPrice(subscription.getPrice());
+            priceHistory.setChangedAt(Instant.now());
+            priceHistoryRepository.save(priceHistory);
+        }
 
         return SubscriptionResponse.from(subscriptionRepository.save(subscription));
     }

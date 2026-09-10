@@ -136,8 +136,8 @@ subscription-manager/
 - [x] Subscription CRUD & categories
 - [x] Payment history
 - [x] Cost normalization & dashboard
-- [ ] Analytics (spend trends, category breakdown)
-- [ ] Price history & change tracking
+- [x] Analytics (spend trends, category breakdown)
+- [x] Price history & change tracking
 - [ ] Notifications & scheduled reminders
 - [ ] Budgeting & savings calculator
 - [ ] Usage tracking & recommendations

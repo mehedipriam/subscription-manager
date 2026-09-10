@@ -7,6 +7,7 @@ import { SummaryCards } from "@/components/dashboard/SummaryCards";
 import { UpcomingPaymentsWidget } from "@/components/dashboard/UpcomingPaymentsWidget";
 import { CategoryBreakdownChart } from "@/components/dashboard/CategoryBreakdownChart";
 import { RecentActivityFeed } from "@/components/dashboard/RecentActivityFeed";
+import { PriceChangesWidget } from "@/components/dashboard/PriceChangesWidget";
 import { EmptyState } from "@/components/dashboard/EmptyState";
 
 type LoadState =
@@ -70,7 +71,10 @@ export default function DashboardPage() {
             <UpcomingPaymentsWidget payments={summary.upcomingPayments} />
             <CategoryBreakdownChart breakdown={summary.categoryBreakdown} />
           </div>
-          <RecentActivityFeed activity={summary.recentActivity} />
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <RecentActivityFeed activity={summary.recentActivity} />
+            <PriceChangesWidget changes={summary.recentPriceChanges} />
+          </div>
         </>
       )}
     </div>

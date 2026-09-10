@@ -1,6 +1,7 @@
 package com.subscriptionmanager.backend.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 
 import jakarta.persistence.Column;
@@ -32,4 +33,14 @@ public class PriceHistory extends BaseEntity {
 
     @Column(name = "changed_at", nullable = false)
     private Instant changedAt;
+
+    public BigDecimal percentageChange() {
+        if (oldPrice.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO;
+        }
+        return newPrice.subtract(oldPrice)
+            .divide(oldPrice, 4, RoundingMode.HALF_UP)
+            .multiply(BigDecimal.valueOf(100))
+            .setScale(2, RoundingMode.HALF_UP);
+    }
 }
