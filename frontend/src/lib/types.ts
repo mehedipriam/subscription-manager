@@ -110,3 +110,20 @@ export interface AnalyticsSummary {
   categoryBreakdown: CategorySpend[];
   mostExpensive: TopSubscription[];
 }
+
+export type NotificationType =
+  | "RENEWAL_UPCOMING"
+  | "TRIAL_ENDING"
+  | "PRICE_CHANGE"
+  | "BUDGET_EXCEEDED"
+  | "SUBSCRIPTION_EXPIRED";
+
+export interface AppNotification {
+  id: number;
+  type: NotificationType;
+  message: string;
+  subscriptionId: number | null;
+  subscriptionName: string | null;
+  isRead: boolean;
+  createdAt: string;
+}

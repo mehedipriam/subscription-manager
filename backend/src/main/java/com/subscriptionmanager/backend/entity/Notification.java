@@ -1,5 +1,7 @@
 package com.subscriptionmanager.backend.entity;
 
+import java.time.LocalDate;
+
 import com.subscriptionmanager.backend.entity.enums.NotificationType;
 
 import jakarta.persistence.Column;
@@ -38,4 +40,13 @@ public class Notification extends BaseEntity {
 
     @Column(name = "is_read", nullable = false)
     private boolean isRead = false;
+
+    /**
+     * The date of the event this notification is about (renewal date, trial
+     * end date, ...). Lets the reminder scheduler dedupe: it only creates a
+     * new notification when no notification for this type/subscription/date
+     * already exists, instead of resending on every scheduler run.
+     */
+    @Column(name = "reference_date")
+    private LocalDate referenceDate;
 }

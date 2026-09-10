@@ -138,7 +138,7 @@ subscription-manager/
 - [x] Cost normalization & dashboard
 - [x] Analytics (spend trends, category breakdown)
 - [x] Price history & change tracking
-- [ ] Notifications & scheduled reminders
+- [x] Notifications & scheduled reminders
 - [ ] Budgeting & savings calculator
 - [ ] Usage tracking & recommendations
 - [ ] Responsive UI, dark mode, CSV/PDF export
