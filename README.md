@@ -118,6 +118,18 @@ All variables are documented with sensible local defaults in `.env.example`.
 | `RATE_LIMIT_MAX_REQUESTS` | Max requests per window on auth endpoints       | `10`                        |
 | `RATE_LIMIT_WINDOW_SECONDS` | Rate limit window length                      | `60`                        |
 
+## Testing
+
+```bash
+# Backend — JUnit 5 + Mockito unit tests for every service
+cd backend
+./mvnw test
+
+# Frontend — Vitest + React Testing Library
+cd frontend
+npm run test
+```
+
 ## Project Structure
 
 ```
@@ -142,7 +154,7 @@ subscription-manager/
 - [x] Budgeting & savings calculator
 - [x] Usage tracking & recommendations
 - [x] Responsive UI, dark mode, CSV/PDF export
-- [ ] Automated testing (JUnit/Mockito, frontend tests)
+- [x] Automated testing (JUnit/Mockito, frontend tests)
 
 ## Author
 
