@@ -45,6 +45,8 @@ app:
     trial-reminder-days: ${TRIAL_REMINDER_DAYS:3}
     scheduler-initial-delay-ms: ${NOTIFICATIONS_SCHEDULER_INITIAL_DELAY_MS:10000}
     scheduler-interval-ms: ${NOTIFICATIONS_SCHEDULER_INTERVAL_MS:86400000}
+  usage:
+    rarely-used-days: ${RARELY_USED_DAYS:30}
 
 jwt:
   secret: ${JWT_SECRET:dev-only-secret-key-change-me-before-any-real-deployment-32bytes+}

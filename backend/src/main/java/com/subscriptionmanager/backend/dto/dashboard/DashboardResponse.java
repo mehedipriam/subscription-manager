@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.subscriptionmanager.backend.dto.budget.BudgetStatusResponse;
+import com.subscriptionmanager.backend.dto.usage.UsageInsightResponse;
 
 public record DashboardResponse(
     BigDecimal totalMonthlySpend,
@@ -14,6 +15,7 @@ public record DashboardResponse(
     List<CategorySpendResponse> categoryBreakdown,
     List<ActivityItemResponse> recentActivity,
     List<PriceChangeResponse> recentPriceChanges,
-    BudgetStatusResponse budgetStatus
+    BudgetStatusResponse budgetStatus,
+    List<UsageInsightResponse> usageRecommendations
 ) {
 }

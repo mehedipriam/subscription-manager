@@ -15,6 +15,7 @@ import com.subscriptionmanager.backend.dto.dashboard.CategorySpendResponse;
 import com.subscriptionmanager.backend.dto.dashboard.DashboardResponse;
 import com.subscriptionmanager.backend.dto.dashboard.PriceChangeResponse;
 import com.subscriptionmanager.backend.dto.dashboard.UpcomingPaymentResponse;
+import com.subscriptionmanager.backend.dto.usage.UsageInsightResponse;
 import com.subscriptionmanager.backend.entity.Payment;
 import com.subscriptionmanager.backend.entity.Subscription;
 import com.subscriptionmanager.backend.entity.enums.SubscriptionStatus;
@@ -31,6 +32,7 @@ public class DashboardService {
     private static final int UPCOMING_WINDOW_DAYS = 30;
     private static final int RENEWAL_SOON_DAYS = 7;
     private static final int RECENT_ACTIVITY_LIMIT = 10;
+    private static final int USAGE_RECOMMENDATIONS_LIMIT = 5;
 
     private final SubscriptionRepository subscriptionRepository;
     private final PaymentRepository paymentRepository;
@@ -38,6 +40,7 @@ public class DashboardService {
     private final CostNormalizationService costNormalizationService;
     private final CategoryBreakdownService categoryBreakdownService;
     private final BudgetService budgetService;
+    private final UsageService usageService;
 
     @Transactional(readOnly = true)
     public DashboardResponse getSummary(Long userId) {
@@ -80,6 +83,12 @@ public class DashboardService {
 
         BudgetStatusResponse budgetStatus = budgetService.getStatus(userId, today, totalMonthlySpend);
 
+        List<UsageInsightResponse> usageRecommendations = usageService.insights(userId).stream()
+            .filter(UsageInsightResponse::rarelyUsed)
+            .sorted(Comparator.comparing(UsageInsightResponse::monthlyCost).reversed())
+            .limit(USAGE_RECOMMENDATIONS_LIMIT)
+            .toList();
+
         return new DashboardResponse(
             totalMonthlySpend,
             totalYearlySpend,
@@ -89,7 +98,8 @@ public class DashboardService {
             categoryBreakdown,
             recentActivity,
             recentPriceChanges,
-            budgetStatus
+            budgetStatus,
+            usageRecommendations
         );
     }
 

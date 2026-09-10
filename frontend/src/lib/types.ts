@@ -89,6 +89,22 @@ export interface BudgetStatus {
   exceeded: boolean;
 }
 
+export interface UsageLogEntry {
+  id: number;
+  usedAt: string;
+}
+
+export interface UsageInsight {
+  subscriptionId: number;
+  subscriptionName: string;
+  monthlyCost: number;
+  currency: string;
+  lastUsedAt: string | null;
+  daysSinceLastUsed: number;
+  usageCount: number;
+  rarelyUsed: boolean;
+}
+
 export interface DashboardSummary {
   totalMonthlySpend: number;
   totalYearlySpend: number;
@@ -99,6 +115,7 @@ export interface DashboardSummary {
   recentActivity: ActivityItem[];
   recentPriceChanges: PriceChange[];
   budgetStatus: BudgetStatus;
+  usageRecommendations: UsageInsight[];
 }
 
 export interface MonthlySpendPoint {

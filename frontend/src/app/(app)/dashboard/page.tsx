@@ -9,6 +9,7 @@ import { CategoryBreakdownChart } from "@/components/dashboard/CategoryBreakdown
 import { RecentActivityFeed } from "@/components/dashboard/RecentActivityFeed";
 import { PriceChangesWidget } from "@/components/dashboard/PriceChangesWidget";
 import { BudgetWidget } from "@/components/dashboard/BudgetWidget";
+import { UsageInsightsWidget } from "@/components/dashboard/UsageInsightsWidget";
 import { EmptyState } from "@/components/dashboard/EmptyState";
 
 type LoadState =
@@ -80,7 +81,10 @@ export default function DashboardPage() {
             <RecentActivityFeed activity={summary.recentActivity} />
             <PriceChangesWidget changes={summary.recentPriceChanges} />
           </div>
-          <BudgetWidget status={summary.budgetStatus} onUpdated={handleBudgetUpdated} />
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <BudgetWidget status={summary.budgetStatus} onUpdated={handleBudgetUpdated} />
+            <UsageInsightsWidget insights={summary.usageRecommendations} />
+          </div>
         </>
       )}
     </div>

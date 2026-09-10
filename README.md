@@ -140,7 +140,7 @@ subscription-manager/
 - [x] Price history & change tracking
 - [x] Notifications & scheduled reminders
 - [x] Budgeting & savings calculator
-- [ ] Usage tracking & recommendations
+- [x] Usage tracking & recommendations
 - [ ] Responsive UI, dark mode, CSV/PDF export
 - [ ] Automated testing (JUnit/Mockito, frontend tests)
 
