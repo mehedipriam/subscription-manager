@@ -80,6 +80,15 @@ export interface PriceChange {
   changedAt: string;
 }
 
+export interface BudgetStatus {
+  periodMonth: string;
+  budgetAmount: number | null;
+  projectedSpend: number;
+  remaining: number | null;
+  percentageUsed: number | null;
+  exceeded: boolean;
+}
+
 export interface DashboardSummary {
   totalMonthlySpend: number;
   totalYearlySpend: number;
@@ -89,6 +98,7 @@ export interface DashboardSummary {
   categoryBreakdown: CategorySpend[];
   recentActivity: ActivityItem[];
   recentPriceChanges: PriceChange[];
+  budgetStatus: BudgetStatus;
 }
 
 export interface MonthlySpendPoint {
@@ -126,4 +136,18 @@ export interface AppNotification {
   subscriptionName: string | null;
   isRead: boolean;
   createdAt: string;
+}
+
+export interface SavingsItem {
+  subscriptionId: number;
+  name: string;
+  monthlyCost: number;
+  yearlyCost: number;
+  currency: string;
+}
+
+export interface CancellationSavings {
+  monthlySavings: number;
+  yearlySavings: number;
+  subscriptions: SavingsItem[];
 }

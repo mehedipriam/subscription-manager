@@ -139,7 +139,7 @@ subscription-manager/
 - [x] Analytics (spend trends, category breakdown)
 - [x] Price history & change tracking
 - [x] Notifications & scheduled reminders
-- [ ] Budgeting & savings calculator
+- [x] Budgeting & savings calculator
 - [ ] Usage tracking & recommendations
 - [ ] Responsive UI, dark mode, CSV/PDF export
 - [ ] Automated testing (JUnit/Mockito, frontend tests)

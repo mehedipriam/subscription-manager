@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.subscriptionmanager.backend.dto.budget.BudgetStatusResponse;
 import com.subscriptionmanager.backend.dto.dashboard.ActivityItemResponse;
 import com.subscriptionmanager.backend.dto.dashboard.CategorySpendResponse;
 import com.subscriptionmanager.backend.dto.dashboard.DashboardResponse;
@@ -36,6 +37,7 @@ public class DashboardService {
     private final PriceHistoryRepository priceHistoryRepository;
     private final CostNormalizationService costNormalizationService;
     private final CategoryBreakdownService categoryBreakdownService;
+    private final BudgetService budgetService;
 
     @Transactional(readOnly = true)
     public DashboardResponse getSummary(Long userId) {
@@ -76,6 +78,8 @@ public class DashboardService {
             .map(PriceChangeResponse::from)
             .toList();
 
+        BudgetStatusResponse budgetStatus = budgetService.getStatus(userId, today, totalMonthlySpend);
+
         return new DashboardResponse(
             totalMonthlySpend,
             totalYearlySpend,
@@ -84,7 +88,8 @@ public class DashboardService {
             upcomingPayments,
             categoryBreakdown,
             recentActivity,
-            recentPriceChanges
+            recentPriceChanges,
+            budgetStatus
         );
     }
 

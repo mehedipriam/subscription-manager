@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch, ApiError } from "@/lib/apiClient";
-import type { DashboardSummary } from "@/lib/types";
+import type { BudgetStatus, DashboardSummary } from "@/lib/types";
 import { SummaryCards } from "@/components/dashboard/SummaryCards";
 import { UpcomingPaymentsWidget } from "@/components/dashboard/UpcomingPaymentsWidget";
 import { CategoryBreakdownChart } from "@/components/dashboard/CategoryBreakdownChart";
 import { RecentActivityFeed } from "@/components/dashboard/RecentActivityFeed";
 import { PriceChangesWidget } from "@/components/dashboard/PriceChangesWidget";
+import { BudgetWidget } from "@/components/dashboard/BudgetWidget";
 import { EmptyState } from "@/components/dashboard/EmptyState";
 
 type LoadState =
@@ -58,6 +59,10 @@ export default function DashboardPage() {
   const { summary } = state;
   const isEmpty = summary.activeSubscriptionCount === 0 && summary.recentActivity.length === 0;
 
+  function handleBudgetUpdated(budgetStatus: BudgetStatus) {
+    setState((prev) => (prev.phase === "ready" ? { ...prev, summary: { ...prev.summary, budgetStatus } } : prev));
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-6 py-8">
       <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Dashboard</h1>
@@ -75,6 +80,7 @@ export default function DashboardPage() {
             <RecentActivityFeed activity={summary.recentActivity} />
             <PriceChangesWidget changes={summary.recentPriceChanges} />
           </div>
+          <BudgetWidget status={summary.budgetStatus} onUpdated={handleBudgetUpdated} />
         </>
       )}
     </div>
