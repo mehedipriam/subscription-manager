@@ -25,18 +25,18 @@ export function MonthlyTrendChart({ trend }: { trend: MonthlySpendPoint[] }) {
           No payments recorded yet in this window.
         </p>
       ) : (
-        <div className="mt-4 h-64 w-full">
+        <div className="mt-4 h-64 w-full text-zinc-500 dark:text-zinc-400">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" opacity={0.1} />
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 12, fill: "currentColor" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 12, fill: "currentColor" }}
                 axisLine={false}
                 tickLine={false}
                 width={48}
@@ -44,7 +44,13 @@ export function MonthlyTrendChart({ trend }: { trend: MonthlySpendPoint[] }) {
               />
               <Tooltip
                 formatter={(value) => formatCurrency(Number(value))}
-                contentStyle={{ fontSize: 12, borderRadius: 8 }}
+                contentStyle={{
+                  fontSize: 12,
+                  borderRadius: 8,
+                  background: "var(--background)",
+                  color: "var(--foreground)",
+                  border: "1px solid var(--border)",
+                }}
               />
               <Bar dataKey="amount" fill={BAR_COLOR} radius={[4, 4, 0, 0]} />
             </BarChart>

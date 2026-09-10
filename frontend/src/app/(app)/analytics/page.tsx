@@ -56,8 +56,8 @@ export default function AnalyticsPage() {
   const { analytics } = state;
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-6 py-8">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Analytics</h1>
         <div className="rounded-xl border border-black/[.08] bg-white px-5 py-3 text-right dark:border-white/[.145] dark:bg-zinc-900">
           <p className="text-xs text-zinc-500 dark:text-zinc-400">Projected yearly total</p>

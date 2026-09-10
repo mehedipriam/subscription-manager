@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { ApiError } from "@/lib/apiClient";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export default function RegisterPage() {
   const { register, status } = useAuth();
@@ -44,7 +45,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-zinc-50 px-4 font-sans dark:bg-black">
+    <div className="relative flex flex-1 items-center justify-center bg-zinc-50 px-4 font-sans dark:bg-black">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm rounded-xl border border-black/[.08] bg-white p-8 dark:border-white/[.145] dark:bg-zinc-900">
         <h1 className="text-xl font-semibold text-black dark:text-zinc-50">Create your account</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">

@@ -96,7 +96,7 @@ export default function CalculatorPage() {
   const { subscriptions } = state;
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-8">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
       <div>
         <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">What if I cancel?</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">

@@ -42,7 +42,13 @@ export function CategoryBreakdownChart({ breakdown }: { breakdown: CategorySpend
                 </Pie>
                 <Tooltip
                   formatter={(value) => formatCurrency(Number(value))}
-                  contentStyle={{ fontSize: 12, borderRadius: 8 }}
+                  contentStyle={{
+                    fontSize: 12,
+                    borderRadius: 8,
+                    background: "var(--background)",
+                    color: "var(--foreground)",
+                    border: "1px solid var(--border)",
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>

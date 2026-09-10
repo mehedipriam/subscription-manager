@@ -19,4 +19,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findBySubscriptionUserIdAndStatusAndDeletedAtIsNullAndPaymentDateGreaterThanEqual(
         Long userId, PaymentStatus status, LocalDate since);
+
+    List<Payment> findBySubscriptionUserIdAndDeletedAtIsNullOrderByPaymentDateDesc(Long userId);
 }

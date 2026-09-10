@@ -65,7 +65,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-6 py-8">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
       <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Dashboard</h1>
 
       {isEmpty ? (
