@@ -72,6 +72,9 @@ public class Subscription extends BaseEntity {
     @Column(name = "cancellation_instructions", columnDefinition = "TEXT")
     private String cancellationInstructions;
 
+    @Column(name = "payment_card_last_four", length = 4)
+    private String paymentCardLastFour;
+
     @Column(name = "deleted_at")
     private Instant deletedAt;
 }

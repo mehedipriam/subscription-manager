@@ -102,6 +102,7 @@ public class SubscriptionService {
         subscription.setTrialEndDate(request.trialEndDate());
         subscription.setCancelUrl(request.cancelUrl());
         subscription.setCancellationInstructions(request.cancellationInstructions());
+        subscription.setPaymentCardLastFour(request.paymentCardLastFour());
         subscription.setCategory(resolveCategory(userId, request.categoryId()));
     }
 

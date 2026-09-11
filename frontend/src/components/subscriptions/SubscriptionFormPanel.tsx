@@ -46,6 +46,7 @@ export function SubscriptionFormPanel({
   const [isTrial, setIsTrial] = useState(initial?.isTrial ?? false);
   const [trialEndDate, setTrialEndDate] = useState(initial?.trialEndDate ?? "");
   const [cancelUrl, setCancelUrl] = useState(initial?.cancelUrl ?? "");
+  const [cardLastFour, setCardLastFour] = useState(initial?.paymentCardLastFour ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,6 +89,10 @@ export function SubscriptionFormPanel({
       setError("Enter a valid price.");
       return;
     }
+    if (cardLastFour && !/^\d{4}$/.test(cardLastFour)) {
+      setError("Card last 4 digits must be exactly 4 digits.");
+      return;
+    }
 
     setError(null);
     setSaving(true);
@@ -106,6 +111,7 @@ export function SubscriptionFormPanel({
         trialEndDate: isTrial && trialEndDate ? trialEndDate : null,
         cancelUrl: cancelUrl.trim() || null,
         cancellationInstructions: null,
+        paymentCardLastFour: cardLastFour || null,
       };
 
       const saved = initial
@@ -314,6 +320,24 @@ export function SubscriptionFormPanel({
             onChange={(e) => setCancelUrl(e.target.value)}
             className={inputClass}
           />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="sub-card-last-four" className={labelClass}>
+            Card last 4 digits <span className="text-zinc-400">(optional)</span>
+          </label>
+          <input
+            id="sub-card-last-four"
+            inputMode="numeric"
+            placeholder="1234"
+            maxLength={4}
+            value={cardLastFour}
+            onChange={(e) => setCardLastFour(e.target.value.replace(/\D/g, "").slice(0, 4))}
+            className={inputClass}
+          />
+          <p className="text-xs text-zinc-400">
+            So you can tell which card or account paid for this.
+          </p>
         </div>
 
         <div className="flex flex-col gap-2 sm:col-span-2">

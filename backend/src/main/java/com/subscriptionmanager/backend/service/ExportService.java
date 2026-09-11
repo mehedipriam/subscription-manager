@@ -160,6 +160,7 @@ public class ExportService {
             Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
             Font metaFont = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.ITALIC);
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+            headerFont.setColor(java.awt.Color.WHITE);
             Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 9);
 
             Paragraph titleParagraph = new Paragraph(title, titleFont);

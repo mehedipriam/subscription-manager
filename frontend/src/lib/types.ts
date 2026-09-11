@@ -39,8 +39,22 @@ export interface Subscription {
   trialEndDate: string | null;
   cancelUrl: string | null;
   cancellationInstructions: string | null;
+  paymentCardLastFour: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export type PaymentStatus = "SUCCESS" | "FAILED" | "PENDING" | "REFUNDED";
+
+export interface Payment {
+  id: number;
+  subscriptionId: number;
+  amount: number;
+  currency: string;
+  paymentDate: string;
+  status: PaymentStatus;
+  transactionReference: string | null;
+  createdAt: string;
 }
 
 export interface UpcomingPayment {

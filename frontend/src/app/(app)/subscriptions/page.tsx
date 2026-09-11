@@ -6,6 +6,7 @@ import type { Category, Subscription } from "@/lib/types";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { SubscriptionFormPanel } from "@/components/subscriptions/SubscriptionFormPanel";
 import { CategoryManager } from "@/components/subscriptions/CategoryManager";
+import { PaymentHistoryPanel } from "@/components/subscriptions/PaymentHistoryPanel";
 
 type LoadState =
   | { phase: "loading" }
@@ -24,6 +25,7 @@ export default function SubscriptionsPage() {
   const [panel, setPanel] = useState<"none" | "add" | number>("none");
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [expandedPaymentsId, setExpandedPaymentsId] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -181,53 +183,70 @@ export default function SubscriptionsPage() {
             ) : (
               <div
                 key={subscription.id}
-                className="flex items-center justify-between gap-4 rounded-xl border border-black/[.08] bg-white p-4 dark:border-white/[.145] dark:bg-zinc-900"
+                className="rounded-xl border border-black/[.08] bg-white dark:border-white/[.145] dark:bg-zinc-900"
               >
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="truncate font-medium text-black dark:text-zinc-50">
-                      {subscription.name}
-                    </span>
-                    <span
-                      className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
-                        STATUS_STYLES[subscription.status] ?? STATUS_STYLES.ACTIVE
-                      }`}
-                    >
-                      {subscription.status.charAt(0) + subscription.status.slice(1).toLowerCase()}
-                    </span>
-                    {subscription.isTrial && (
-                      <span className="shrink-0 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700 dark:bg-sky-950/40 dark:text-sky-400">
-                        Trial
+                <div className="flex items-center justify-between gap-4 p-4">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="truncate font-medium text-black dark:text-zinc-50">
+                        {subscription.name}
                       </span>
-                    )}
+                      <span
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                          STATUS_STYLES[subscription.status] ?? STATUS_STYLES.ACTIVE
+                        }`}
+                      >
+                        {subscription.status.charAt(0) + subscription.status.slice(1).toLowerCase()}
+                      </span>
+                      {subscription.isTrial && (
+                        <span className="shrink-0 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700 dark:bg-sky-950/40 dark:text-sky-400">
+                          Trial
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
+                      {subscription.category ? `${subscription.category.name} · ` : ""}
+                      {subscription.billingCycle.toLowerCase()}
+                      {subscription.nextBillingDate
+                        ? ` · renews ${formatDate(subscription.nextBillingDate)}`
+                        : ""}
+                      {subscription.paymentCardLastFour
+                        ? ` · •••• ${subscription.paymentCardLastFour}`
+                        : ""}
+                    </p>
                   </div>
-                  <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
-                    {subscription.category ? `${subscription.category.name} · ` : ""}
-                    {subscription.billingCycle.toLowerCase()}
-                    {subscription.nextBillingDate
-                      ? ` · renews ${formatDate(subscription.nextBillingDate)}`
-                      : ""}
-                  </p>
+
+                  <div className="flex shrink-0 items-center gap-4">
+                    <span className="text-sm font-medium text-black dark:text-zinc-50">
+                      {formatCurrency(subscription.price, subscription.currency)}
+                    </span>
+                    <button
+                      onClick={() =>
+                        setExpandedPaymentsId((prev) => (prev === subscription.id ? null : subscription.id))
+                      }
+                      className="text-sm text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-zinc-50"
+                    >
+                      {expandedPaymentsId === subscription.id ? "Hide payments" : "Payments"}
+                    </button>
+                    <button
+                      onClick={() => setPanel(subscription.id)}
+                      className="text-sm text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-zinc-50"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(subscription.id)}
+                      disabled={deletingId === subscription.id}
+                      className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50 dark:text-red-400 dark:hover:text-red-300"
+                    >
+                      {deletingId === subscription.id ? "Deleting…" : "Delete"}
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-4">
-                  <span className="text-sm font-medium text-black dark:text-zinc-50">
-                    {formatCurrency(subscription.price, subscription.currency)}
-                  </span>
-                  <button
-                    onClick={() => setPanel(subscription.id)}
-                    className="text-sm text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-zinc-50"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(subscription.id)}
-                    disabled={deletingId === subscription.id}
-                    className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50 dark:text-red-400 dark:hover:text-red-300"
-                  >
-                    {deletingId === subscription.id ? "Deleting…" : "Delete"}
-                  </button>
-                </div>
+                {expandedPaymentsId === subscription.id && (
+                  <PaymentHistoryPanel subscription={subscription} />
+                )}
               </div>
             )
           )}

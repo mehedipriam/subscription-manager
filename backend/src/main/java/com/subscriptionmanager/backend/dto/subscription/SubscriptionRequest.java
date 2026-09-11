@@ -9,6 +9,7 @@ import com.subscriptionmanager.backend.entity.enums.SubscriptionStatus;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record SubscriptionRequest(
@@ -44,6 +45,9 @@ public record SubscriptionRequest(
     @Size(max = 500, message = "Cancel URL must be at most 500 characters")
     String cancelUrl,
 
-    String cancellationInstructions
+    String cancellationInstructions,
+
+    @Pattern(regexp = "\\d{4}", message = "Card last 4 digits must be exactly 4 digits")
+    String paymentCardLastFour
 ) {
 }

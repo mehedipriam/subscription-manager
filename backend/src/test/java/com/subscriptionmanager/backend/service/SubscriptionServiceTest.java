@@ -55,7 +55,7 @@ class SubscriptionServiceTest {
     private SubscriptionRequest basicRequest(BigDecimal price, String currency) {
         return new SubscriptionRequest(
             "Netflix", null, null, price, currency, BillingCycle.MONTHLY,
-            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null);
+            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null, null);
     }
 
     @Test
@@ -117,7 +117,7 @@ class SubscriptionServiceTest {
 
         SubscriptionRequest request = new SubscriptionRequest(
             "Netflix", null, 2L, new BigDecimal("9.99"), "USD", BillingCycle.MONTHLY,
-            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null);
+            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null, null);
         SubscriptionResponse response = service.create(1L, request);
 
         assertThat(response.category().id()).isEqualTo(2L);
@@ -135,7 +135,7 @@ class SubscriptionServiceTest {
 
         SubscriptionRequest request = new SubscriptionRequest(
             "Netflix", null, 2L, new BigDecimal("9.99"), "USD", BillingCycle.MONTHLY,
-            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null);
+            LocalDate.of(2020, 1, 1), LocalDate.of(2026, 12, 1), null, null, null, null, null, null);
 
         assertThatThrownBy(() -> service.create(1L, request)).isInstanceOf(ResourceNotFoundException.class);
     }
@@ -184,7 +184,7 @@ class SubscriptionServiceTest {
 
         SubscriptionRequest request = new SubscriptionRequest(
             "Netflix", null, null, new BigDecimal("9.99"), "USD", BillingCycle.MONTHLY,
-            LocalDate.now().minusMonths(2), null, null, null, null, null, null);
+            LocalDate.now().minusMonths(2), null, null, null, null, null, null, null);
         SubscriptionResponse response = service.create(1L, request);
 
         assertThat(response.nextBillingDate()).isAfterOrEqualTo(LocalDate.now());
@@ -197,7 +197,7 @@ class SubscriptionServiceTest {
 
         SubscriptionRequest request = new SubscriptionRequest(
             "Netflix", null, null, new BigDecimal("9.99"), "USD", BillingCycle.MONTHLY,
-            LocalDate.of(2020, 1, 1), explicit, null, null, null, null, null);
+            LocalDate.of(2020, 1, 1), explicit, null, null, null, null, null, null);
         SubscriptionResponse response = service.create(1L, request);
 
         assertThat(response.nextBillingDate()).isEqualTo(explicit);

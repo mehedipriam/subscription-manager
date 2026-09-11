@@ -23,6 +23,7 @@ public record SubscriptionResponse(
     LocalDate trialEndDate,
     String cancelUrl,
     String cancellationInstructions,
+    String paymentCardLastFour,
     Instant createdAt,
     Instant updatedAt
 ) {
@@ -42,6 +43,7 @@ public record SubscriptionResponse(
             subscription.getTrialEndDate(),
             subscription.getCancelUrl(),
             subscription.getCancellationInstructions(),
+            subscription.getPaymentCardLastFour(),
             subscription.getCreatedAt(),
             subscription.getUpdatedAt()
         );
